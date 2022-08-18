@@ -1,4 +1,11 @@
 FROM openjdk:11-jdk-bullseye as ofbiz
+LABEL maintainer="dockerdev@serinty.net"
+LABEL org.opencontainers.image.created="2022-08-18"
+LABEL org.opencontainers.image.source="https://github.com/Serinty/docker-ofbiz-trunk.git"
+LABEL org.opencontainers.image.vendor="Serinty Ltd"
+LABEL org.opencontainers.image.authors="Sven Jorns"
+LABEL org.opencontainers.image.licenses="Apache-2.0"
+
 ENV JAVA_OPTS -Xmx2G
 RUN apt-get -y update && apt-get -y dist-upgrade && apt-get -qq -y install unzip wget 
 # you can build with your own repos e.g. with git daemon --base-path=. --export-all --reuseaddr --informative-errors --verbose 
@@ -21,6 +28,7 @@ EXPOSE 8009
 #TODO: extrace binary from build
 FROM ofbiz as ofbiz-postgres
 WORKDIR /ofbiz-framework
+ENV DB_PLATTFORM="D"
 ENV JDBC_LIB_FILE="postgresql-42.4.1.jar" 
 ENV DB_HOST="127.0.0.1"
 ENV DB_NAME="ofbiz"
