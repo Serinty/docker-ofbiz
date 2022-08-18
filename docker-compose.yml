@@ -1,24 +1,38 @@
-version: "3.1"
+version: "3.5"
 
 services:
   db:
     image: postgres:13
     restart: always
     environment:
-      POSTGRES_PASSWORD: lDvEFVkVyVpHuCOK9To3
+      - POSTGRES_PASSWORD=lDvEFVkVyVpHuCOK9To3
+      - POSTGRES_DB=ofbiz
+      - POSTGRES_USER=ofbiz
     # ports:
     #   - 5432:5432
+    # https://raw.githubusercontent.com/k0lter/autopostgresqlbackup/master/autopostgresqlbackup
     volumes:
       - ./dbdumps:/opt/dbdumps
       - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
 
   ofbiz:
-    build: ofbiz
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      target: ofbiz-postgres
+      args:  
+        - REPOS_FRAMEWORK_URL=git://192.168.122.1/ofbiz-framework 
+        - REPOS_PLUGIN_URL=git://192.168.122.1/plugins
+    environment:
+      - DB_HOST=db
+      - DB_PASSWORD=lDvEFVkVyVpHuCOK9To3
+      - DOMAINLIST=localhost,127.0.0.1,192.168.122.21,docker.local,ofbiz.local
+
     depends_on:
       - db
     ports:
       - 8443:8443
-      - 15005:5005
+    #  - 15005:5005
     # command: ["ofbiz", "--debug-jvm"]
     # command: ["loadAll"]
-    # command: ["/ofbiz/gradlew", "ofbiz"]
+    # command: ["/ofbiz-framework/gradlew", "ofbiz"]
