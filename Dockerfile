@@ -1,4 +1,4 @@
-FROM openjdk:11-jdk-bullseye as ofbiz
+FROM openjdk:11-jdk-bullseye as ofbiz-build
 LABEL maintainer="dockerdev@serinty.net"
 LABEL org.opencontainers.image.created="2022-08-18"
 LABEL org.opencontainers.image.source="https://github.com/Serinty/docker-ofbiz-trunk.git"
@@ -26,7 +26,7 @@ EXPOSE 8009
 #ENTRYPOINT [ "/ofbiz-framework/gradlew"]
 #CMD ["ofbiz --start"]
 #TODO: extrace binary from build
-FROM ofbiz as ofbiz-postgres
+FROM ofbiz-build as ofbiz
 WORKDIR /ofbiz-framework
 ENV DB_PLATTFORM="D"
 ENV JDBC_LIB_FILE="postgresql-42.4.1.jar" 
