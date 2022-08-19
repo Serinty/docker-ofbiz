@@ -27,6 +27,7 @@ EXPOSE 8009
 #CMD ["ofbiz --start"]
 #TODO: extrace binary from build
 FROM ofbiz-build as ofbiz
+VOLUME ["/ofbiz-framework/runtime"]
 WORKDIR /ofbiz-framework
 ENV DB_PLATTFORM="D"
 ENV JDBC_LIB_FILE="postgresql-42.4.1.jar" 
