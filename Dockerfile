@@ -27,15 +27,21 @@ EXPOSE 8009
 #CMD ["ofbiz --start"]
 #TODO: extrace binary from build
 FROM ofbiz-build as ofbiz
+# docker volume create ofbizdata
+# docker volume create ofbizsecconf
+# docker volume create ofbizdbconf
 VOLUME ["/ofbiz-framework/runtime"]
+VOLUME ["/ofbiz-framework/framework/entity/config/"]
+VOLUME ["/ofbiz-framework/framework/security/config/"]
 WORKDIR /ofbiz-framework
-ENV DB_PLATTFORM="D"
+ENV DB_PLATFORM="D"
 ENV JDBC_LIB_FILE="postgresql-42.4.1.jar" 
 ENV DB_HOST="127.0.0.1"
 ENV DB_NAME="ofbiz"
 ENV DB_USER="ofbiz"
 ENV DB_PASSWORD="ofbiz"
 ENV DOMAINLIST="localhost,127.0.0.1"
+ENV TIME_TO_WAIT_AFTER_START=30
 COPY entrystart.sh /ofbiz-framework/entrystart.sh
 RUN chmod +x /ofbiz-framework/entrystart.sh
 ENTRYPOINT [ "/ofbiz-framework/entrystart.sh"]
