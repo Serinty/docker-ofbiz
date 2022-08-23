@@ -26,16 +26,8 @@ sed -i 's/host-headers-allowed=.*/host-headers-allowed='"$DOMAINLIST"'/g' ./fram
 if [ ${1:+1}  ]; then
 if [ $1 = "--init" ] 
 then
-    echo "Start ofbiz to load init data"
-    /ofbiz-framework/gradlew "ofbizBackground --start"; 
-    /ofbiz-framework/gradlew "ofbiz --status" 
-# System.out() is missing in ofbiz
-    echo "waiting $TIME_TO_WAIT_AFTER_START s for ofbiz";
-    sleep $TIME_TO_WAIT_AFTER_START;
-
-    /ofbiz-framework/gradlew "ofbiz --status" 
-    /ofbiz-framework/gradlew "ofbiz --load-data readers=seed,demo,ext" \
-    && /ofbiz-framework/gradlew "ofbiz --shutdown" 
+    echo "Start ofbiz to load init data";
+    /ofbiz-framework/gradlew "ofbiz --load-data readers=seed,seed-init,demo,ext"; 
 fi 
 fi
-   /ofbiz-framework/gradlew "ofbiz --start"
+ /ofbiz-framework/gradlew "ofbiz --start"
