@@ -40,9 +40,7 @@ With VERSION you can switch between releases, default=trunk, tested also with ``
 ## Startscript
 entrystart.sh is a script, that:
 * change the configuration of ofbiz
-* start app in backgound
 * import default data
-* stop app
 * start app in foreground to get logs over stdout
 
 ## Using example
